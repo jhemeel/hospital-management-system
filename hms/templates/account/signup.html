@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load allauth  socialaccount %}
+
+
+{% block content %}
+    <p>
+        Already have an account? Then please <a href="{{ login_url }}">sign in</a>.
+    </p>
+    <form action="{% url "account_signup" %}" method="post" class="flex flex-col w-full sm:w-3/4 md:w-1/2  p-3 mx-auto my-5 bg-[teal]">
+      <h3>Sign Up</h3>
+
+        {% csrf_token %}
+
+        <div>
+            {{ form.non_field_errors | safe }}
+            <input type="hidden" name="remember" value="true" />
+            <div class=""><div>
+            <div>
+              {{ form.name.errors | safe }}
+              <label for="Name" class="sr-only">Name</label>
+              {% render_field form.name class="name-input sm:w-full mb-3 " placeholder="Enter your name..." %}
+            </div>
+            <div>
+              {{ form.email.errors | safe }}
+              <label for="email" class="sr-only">Email</label>
+              {% render_field form.email class="sm:w-full  mb-3 " placeholder="Enter your email..." %}
+            </div>
+            <div>
+              {{ form.password1.errors | safe }}
+              <label for="id_password1" class="sr-only">Password</label>
+              {% render_field form.password1 class="sm:w-full  mb-3 " placeholder="Enter your password" %}
+            </div>
+            <div>
+              {{ form.password2.errors | safe }}
+              <label for="password2" class="sr-only">Retype Password</label>
+              {% render_field form.password2 class="sm:w-full  mb-3 " placeholder="Retype password" %}
+            </div>
+        </div>
+              
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit">Sign Up</button>
+    </form>
+    
+    {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+{% endblock content %}
